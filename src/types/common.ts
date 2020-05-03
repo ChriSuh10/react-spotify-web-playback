@@ -17,9 +17,9 @@ export interface IProps {
   styles?: IStylesProps;
   syncExternalDeviceInterval?: number;
   token: string;
+  trackStartPosition?: number;
   updateSavedStatus?: (fn: (status: boolean) => any) => any;
   uris?: string | string[];
-  positionMs?: number;
 }
 
 export interface IState {
@@ -46,8 +46,8 @@ export interface IState {
 
 export interface IPlayOptions {
   context_uri?: string;
+  trackStartPosition?: number;
   uris?: string[];
-  positionMs?: number;
 }
 
 export interface IStylesOptions {

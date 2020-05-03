@@ -562,7 +562,7 @@ describe('SpotifyWebPlayer', () => {
       wrapper = setup({
         offset: 0,
         play: false,
-        positionMs: 10443,
+        trackStartPosition: 43,
         uris: ['spotify:track:2ViHeieFA3iPmsBya2NDFl', 'spotify:track:5zq709Rk69kjzCDdNthSbK'],
       });
 
@@ -581,7 +581,7 @@ describe('SpotifyWebPlayer', () => {
       playerStateResponse = playerState;
       await skipEventLoop();
 
-      expect(wrapper.state('progressMs')).toBe(10443);
+      expect(wrapper.state('progress')).toBe(43);
     });
   });
 });
