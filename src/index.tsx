@@ -113,7 +113,16 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
       status,
       track,
     } = this.state;
-    const { autoPlay, callback, offset, play: playProp, showSaveIcon, token, uris, positionMs } = this.props;
+    const {
+      autoPlay,
+      callback,
+      offset,
+      play: playProp,
+      showSaveIcon,
+      token,
+      uris,
+      positionMs,
+    } = this.props;
     const isReady = prevState.status !== STATUS.READY && status === STATUS.READY;
     const changedURIs = Array.isArray(uris) ? !isEqualArray(prevProps.uris, uris) : uris !== uris;
 
@@ -179,7 +188,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
     if (isInitializing && !autoPlay && positionMs) {
       this.updateState({
         progressMs: positionMs,
-      })
+      });
     }
 
     if (prevState.isInitializing && !isInitializing) {
