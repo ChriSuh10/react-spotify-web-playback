@@ -3,7 +3,7 @@ export interface IPlayOptions {
   deviceId: string;
   offset?: number;
   uris?: string[];
-  position_ms?: number;
+  positionMs?: number;
 }
 
 export interface IPlayerTrack {

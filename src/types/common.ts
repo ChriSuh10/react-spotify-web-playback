@@ -19,7 +19,7 @@ export interface IProps {
   token: string;
   updateSavedStatus?: (fn: (status: boolean) => any) => any;
   uris?: string | string[];
-  position_ms?: number;
+  positionMs?: number;
 }
 
 export interface IState {
@@ -47,6 +47,7 @@ export interface IState {
 export interface IPlayOptions {
   context_uri?: string;
   uris?: string[];
+  positionMs?: number;
 }
 
 export interface IStylesOptions {

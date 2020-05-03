@@ -1,5 +1,5 @@
 {
-  "name": "react-spotify-web-playback",
+  "name": "@chrisuh10/react-spotify-web-playback",
   "version": "0.6.0",
   "description": "A React Spotify Web Player",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
@@ -121,5 +121,8 @@
       "post-merge": "ts-node tools update",
       "pre-commit": "ts-node tools has-commits && lint-staged"
     }
+  },
+  "directories": {
+    "test": "test"
   }
 }

@@ -113,7 +113,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
       status,
       track,
     } = this.state;
-    const { autoPlay, callback, offset, play: playProp, showSaveIcon, token, uris } = this.props;
+    const { autoPlay, callback, offset, play: playProp, showSaveIcon, token, uris, positionMs } = this.props;
     const isReady = prevState.status !== STATUS.READY && status === STATUS.READY;
     const changedURIs = Array.isArray(uris) ? !isEqualArray(prevProps.uris, uris) : uris !== uris;
 
@@ -174,6 +174,12 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
         ...this.state,
         type: TYPE.PLAYER,
       });
+    }
+
+    if (isInitializing && !autoPlay && positionMs) {
+      this.updateState({
+        progressMs: positionMs,
+      })
     }
 
     if (prevState.isInitializing && !isInitializing) {
@@ -637,7 +643,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
 
   private togglePlay = async (init: boolean = false) => {
     const { currentDeviceId, isPlaying, needsUpdate } = this.state;
-    const { offset, token, position_ms } = this.props;
+    const { offset, token, positionMs } = this.props;
     const shouldInitialize = init || needsUpdate;
 
     try {
@@ -648,7 +654,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
             {
               deviceId: currentDeviceId,
               offset,
-              position_ms,
+              positionMs,
               ...(shouldInitialize ? this.playOptions : undefined),
             },
             token,

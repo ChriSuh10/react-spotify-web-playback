@@ -544,4 +544,44 @@ describe('SpotifyWebPlayer', () => {
       expect(wrapper.state('isPlaying')).toBeFalse();
     });
   });
+
+  describe('with position prop', () => {
+    let wrapper: ReactWrapper<IProps, IState>;
+
+    beforeAll(() => {
+      fetchMock.resetHistory();
+      Element.prototype.getBoundingClientRect = jest.fn(() => ({
+        bottom: 50,
+        height: 50,
+        left: 900,
+        right: 0,
+        top: 0,
+        width: 6,
+      }));
+
+      wrapper = setup({
+        positionMs: 10443,
+        offset: 0,
+        play: false,
+        uris: ['spotify:track:2ViHeieFA3iPmsBya2NDFl', 'spotify:track:5zq709Rk69kjzCDdNthSbK'],
+      });
+
+      const [, readyFn] = mockAddListener.mock.calls.find(d => d[0] === 'ready');
+      readyFn({ device_id: deviceId });
+
+      // await skipEventLoop();
+      wrapper.update();
+    });
+
+    afterAll(() => {
+      wrapper.unmount();
+    });
+
+    it('should honor the position props ', async () => {
+      playerStateResponse = playerState;
+      await skipEventLoop();
+
+      expect(wrapper.state('progressMs')).toBe(10443);
+    });
+  });
 });
