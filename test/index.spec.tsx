@@ -581,7 +581,7 @@ describe('SpotifyWebPlayer', () => {
       playerStateResponse = playerState;
       await skipEventLoop();
 
-      expect(wrapper.state('progress')).toBe(43);
+      expect(wrapper.state('position')).toBe(43);
     });
   });
 });
