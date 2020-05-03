@@ -560,9 +560,9 @@ describe('SpotifyWebPlayer', () => {
       }));
 
       wrapper = setup({
-        positionMs: 10443,
         offset: 0,
         play: false,
+        positionMs: 10443,
         uris: ['spotify:track:2ViHeieFA3iPmsBya2NDFl', 'spotify:track:5zq709Rk69kjzCDdNthSbK'],
       });
 
