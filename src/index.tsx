@@ -653,11 +653,12 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
   };
 
   private togglePlay = async (init: boolean = false) => {
-    const { currentDeviceId, isPlaying, needsUpdate } = this.state;
+    const { currentDeviceId, isPlaying, needsUpdate, track } = this.state;
     const { offset, token, trackStartPosition } = this.props;
     const shouldInitialize = init || needsUpdate;
 
     try {
+      const positionMs = trackStartPosition ? track.durationMs * trackStartPosition / 100 : undefined;
       /* istanbul ignore else */
       if (this.isExternalPlayer) {
         if (!isPlaying) {
@@ -665,7 +666,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
             {
               deviceId: currentDeviceId,
               offset,
-              trackStartPosition,
+              positionMs,
               ...(shouldInitialize ? this.playOptions : undefined),
             },
             token,
@@ -690,7 +691,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
             {
               deviceId: currentDeviceId,
               offset,
-              trackStartPosition,
+              positionMs,
               ...(shouldInitialize ? this.playOptions : undefined),
             },
             token,

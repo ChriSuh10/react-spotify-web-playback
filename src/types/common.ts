@@ -46,7 +46,7 @@ export interface IState {
 
 export interface IPlayOptions {
   context_uri?: string;
-  trackStartPosition?: number;
+  positionMs?: number;
   uris?: string[];
 }
 

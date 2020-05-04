@@ -2,7 +2,7 @@ export interface IPlayOptions {
   context_uri?: string;
   deviceId: string;
   offset?: number;
-  trackStartPosition?: number;
+  positionMs?: number;
   uris?: string[];
 }
 
