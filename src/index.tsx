@@ -185,9 +185,12 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
       });
     }
 
-    if (isInitializing && !autoPlay && trackStartPosition) {
-      this.handleChangeRange(trackStartPosition);
-      this.updateState({ position: trackStartPosition });
+    if (!autoPlay) {
+      this.updateState({ needsUpdate: true });
+      if (isInitializing && trackStartPosition) {
+        this.handleChangeRange(trackStartPosition);
+        this.updateState({ position: trackStartPosition });
+      }
     }
 
     if (prevState.isInitializing && !isInitializing) {
@@ -687,6 +690,7 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
             {
               deviceId: currentDeviceId,
               offset,
+              trackStartPosition,
               ...(shouldInitialize ? this.playOptions : undefined),
             },
             token,
