@@ -12,6 +12,17 @@ export async function checkTracksStatus(tracks: string | string[], token: string
   }).then(d => d.json());
 }
 
+export async function getTrackInfo(trackURI: string, token: string) {
+  const trackId = trackURI.split(":").pop();
+  return fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  }).then(d => d.json());
+}
+
 export async function getDevices(token: string) {
   return fetch(`https://api.spotify.com/v1/me/player/devices`, {
     headers: {
