@@ -86,7 +86,8 @@
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
     "validate": "npm run lint && npm run test:coverage && npm run build && npm run bundlesize",
     "bundlesize": "size-limit",
-    "prepublishOnly": "npm run validate"
+    "prepublishOnly": "npm run validate",
+    "prepare": "npm run build"
   },
   "browserslist": [
     "> 0.2%",
