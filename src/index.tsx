@@ -187,22 +187,22 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
     }
 
     if (!autoPlay && isInitializing) {
+      this.updateState({ needsUpdate: true })
       if (uris && offset) {
         const trackURI = uris[offset];
-        const track = await getTrackInfo(trackURI, token);
-        const artists = track.artists.map(
+        const thisTrack = await getTrackInfo(trackURI, token);
+        const artists = thisTrack.artists.map(
           (d: { json: () => any; name: any; }) => {
             return typeof d.name === "string" ? d.name : "";
         });
         this.updateState({ 
-          needsUpdate: true,
           track: {
             artists: artists.join(', '),
-            durationMs: track.duration_ms,
-            id: track.id,
-            image: this.setAlbumImage(track.album),
-            name: track.name,
-            uri: track.uri,
+            durationMs: thisTrack.duration_ms,
+            id: thisTrack.id,
+            image: this.setAlbumImage(thisTrack.album),
+            name: thisTrack.name,
+            uri: thisTrack.uri,
           }
         });
       } 
