@@ -93,6 +93,8 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
   public async componentDidMount() {
     this._isMounted = true;
     this.updateState({ status: STATUS.INITIALIZING });
+    const { autoPlay, offset, token, trackStartPosition, uris } = this.props;
+    const { isInitializing } = this.state;
 
     // @ts-ignore
     window.onSpotifyWebPlaybackSDKReady = this.initializePlayer;
@@ -102,6 +104,32 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
       id: 'spotify-player',
       source: 'https://sdk.scdn.co/spotify-player.js',
     });
+
+    if (!autoPlay && isInitializing) {
+      this.updateState({ needsUpdate: true })
+      if (uris && offset) {
+        const trackURI = uris[offset];
+        const thisTrack = await getTrackInfo(trackURI, token);
+        const artists = thisTrack.artists.map(
+          (d: { json: () => any; name: any; }) => {
+            return typeof d.name === "string" ? d.name : "";
+        });
+        this.updateState({ 
+          track: {
+            artists: artists.join(', '),
+            durationMs: thisTrack.duration_ms,
+            id: thisTrack.id,
+            image: this.setAlbumImage(thisTrack.album),
+            name: thisTrack.name,
+            uri: thisTrack.uri,
+          }
+        });
+      } 
+      if (trackStartPosition) {
+        this.handleChangeRange(trackStartPosition);
+        this.updateState({ position: trackStartPosition });
+      }
+    }
   }
 
   public async componentDidUpdate(prevProps: IProps, prevState: IState) {
@@ -184,32 +212,6 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
         ...this.state,
         type: TYPE.PLAYER,
       });
-    }
-
-    if (!autoPlay && isInitializing) {
-      this.updateState({ needsUpdate: true })
-      if (uris && offset) {
-        const trackURI = uris[offset];
-        const thisTrack = await getTrackInfo(trackURI, token);
-        const artists = thisTrack.artists.map(
-          (d: { json: () => any; name: any; }) => {
-            return typeof d.name === "string" ? d.name : "";
-        });
-        this.updateState({ 
-          track: {
-            artists: artists.join(', '),
-            durationMs: thisTrack.duration_ms,
-            id: thisTrack.id,
-            image: this.setAlbumImage(thisTrack.album),
-            name: thisTrack.name,
-            uri: thisTrack.uri,
-          }
-        });
-      } 
-      if (trackStartPosition) {
-        this.handleChangeRange(trackStartPosition);
-        this.updateState({ position: trackStartPosition });
-      }
     }
 
     if (prevState.isInitializing && !isInitializing) {
