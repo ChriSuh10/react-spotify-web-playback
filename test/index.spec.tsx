@@ -1,7 +1,7 @@
 /* tslint:disable:no-console */
 declare var window: any;
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 import fetchMock from 'fetch-mock';
 
 import SpotifyWebPlayer, { STATUS } from '../src';
@@ -569,7 +569,6 @@ describe('SpotifyWebPlayer', () => {
       const [, readyFn] = mockAddListener.mock.calls.find(d => d[0] === 'ready');
       readyFn({ device_id: deviceId });
 
-      // await skipEventLoop();
       wrapper.update();
     });
 

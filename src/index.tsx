@@ -105,25 +105,30 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
       source: 'https://sdk.scdn.co/spotify-player.js',
     });
 
+    await this.getFirstTrack();
+  }
+
+  private async getFirstTrack() {
+    const { autoPlay, offset, token, trackStartPosition, uris } = this.props;
+    const { isInitializing } = this.state;
+
     if (!autoPlay && isInitializing) {
       this.updateState({ needsUpdate: true })
       if (uris && offset) {
         const trackURI = uris[offset];
-        const thisTrack = await getTrackInfo(trackURI, token);
-        const artists = thisTrack.artists.map(
-          (d: { json: () => any; name: any; }) => {
-            return typeof d.name === "string" ? d.name : "";
-        });
-        this.updateState({ 
-          track: {
-            artists: artists.join(', '),
-            durationMs: thisTrack.duration_ms,
-            id: thisTrack.id,
-            image: this.setAlbumImage(thisTrack.album),
-            name: thisTrack.name,
-            uri: thisTrack.uri,
+        await getTrackInfo(trackURI, token).then(
+          d => {
+            this.updateState({
+              track: {
+                artists: d.artists.join(', '),
+                durationMs: d.duration_ms,
+                id: d.id,
+                image: this.setAlbumImage(d.album),
+                name: d.name,
+                uri: d.uri,
+            }});
           }
-        });
+        );
       } 
       if (trackStartPosition) {
         this.handleChangeRange(trackStartPosition);
