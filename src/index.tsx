@@ -134,11 +134,13 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
         const { track } = this.state;
         const progressMs = track.durationMs * trackStartPosition / 100;
         // await this.player.seek(Math.round(progressMs));
-        // this.handleChangeRange(trackStartPosition);
-        this.updateState({
-          position: trackStartPosition,
-          progressMs,
-         });
+        await this.togglePlay();
+        await this.togglePlay();
+        await this.handleChangeRange(trackStartPosition);
+        // this.updateState({
+        //   position: trackStartPosition,
+        //   progressMs,
+        //  });
       }
     }
   }
