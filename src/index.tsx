@@ -93,8 +93,6 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
   public async componentDidMount() {
     this._isMounted = true;
     this.updateState({ status: STATUS.INITIALIZING });
-    const { autoPlay, offset, token, trackStartPosition, uris } = this.props;
-    const { isInitializing } = this.state;
 
     // @ts-ignore
     window.onSpotifyWebPlaybackSDKReady = this.initializePlayer;
@@ -109,10 +107,10 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
   }
 
   private async getFirstTrack() {
-    const { autoPlay, offset, token, trackStartPosition, uris } = this.props;
+    const { offset, token, uris } = this.props;
     const { isInitializing } = this.state;
 
-    if (!autoPlay && isInitializing) {
+    if (isInitializing) {
       this.updateState({ needsUpdate: true })
       if (uris && offset) {
         const trackURI = uris[offset];
@@ -127,23 +125,11 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
                 name: d.name,
                 uri: d.uri,
             }});
-          }
-        );
+          });
       } 
-      if (trackStartPosition) {
-        const { track } = this.state;
-        const progressMs = track.durationMs * trackStartPosition / 100;
-        // await this.player.seek(Math.round(progressMs));
-        await this.togglePlay();
-        await this.togglePlay();
-        await this.handleChangeRange(trackStartPosition);
-        // this.updateState({
-        //   position: trackStartPosition,
-        //   progressMs,
-        //  });
-      }
     }
   }
+
 
   public async componentDidUpdate(prevProps: IProps, prevState: IState) {
     const {
@@ -281,11 +267,13 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
   }
 
   private get playOptions(): IPlayOptions {
-    const { uris } = this.props;
+    const { uris, trackStartPosition } = this.props;
+    const { track } = this.state;
 
     const response: IPlayOptions = {
       context_uri: undefined,
       uris: undefined,
+      position_ms: undefined,
     };
 
     /* istanbul ignore else */
@@ -297,6 +285,13 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
       } else {
         response.context_uri = ids[0];
       }
+    }
+
+    if (trackStartPosition && track) {
+      const progressMs = track.durationMs * trackStartPosition / 100;
+      response.position_ms = progressMs;
+    } else {
+      response.position_ms = 0;
     }
 
     return response;
