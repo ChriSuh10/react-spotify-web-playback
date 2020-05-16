@@ -687,7 +687,6 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
     const shouldInitialize = init || needsUpdate;
 
     try {
-      const positionMs = trackStartPosition ? track.durationMs * trackStartPosition / 100 : undefined;
       /* istanbul ignore else */
       if (this.isExternalPlayer) {
         if (!isPlaying) {
@@ -695,7 +694,6 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
             {
               deviceId: currentDeviceId,
               offset,
-              positionMs,
               ...(shouldInitialize ? this.playOptions : undefined),
             },
             token,
@@ -720,7 +718,6 @@ class SpotifyWebPlayer extends React.PureComponent<IProps, IState> {
             {
               deviceId: currentDeviceId,
               offset,
-              positionMs,
               ...(shouldInitialize ? this.playOptions : undefined),
             },
             token,

@@ -2,7 +2,7 @@ export interface IPlayOptions {
   context_uri?: string;
   deviceId: string;
   offset?: number;
-  positionMs?: number;
+  position_ms?: number;
   uris?: string[];
 }
 

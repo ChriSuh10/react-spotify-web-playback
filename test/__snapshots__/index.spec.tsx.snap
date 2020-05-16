@@ -1949,7 +1949,7 @@ exports[`SpotifyWebPlayer With the local player should render the full UI 1`] = 
             "isPlaying": false,
             "isSaved": false,
             "isUnsupported": false,
-            "needsUpdate": false,
+            "needsUpdate": true,
             "nextTracks": Array [
               Object {
                 "album": Object {
@@ -2068,7 +2068,7 @@ exports[`SpotifyWebPlayer With the local player should render the full UI 1`] = 
             "isPlaying": true,
             "isSaved": false,
             "isUnsupported": false,
-            "needsUpdate": false,
+            "needsUpdate": true,
             "nextTracks": Array [
               Object {
                 "album": Object {
@@ -2187,7 +2187,7 @@ exports[`SpotifyWebPlayer With the local player should render the full UI 1`] = 
             "isPlaying": true,
             "isSaved": false,
             "isUnsupported": false,
-            "needsUpdate": false,
+            "needsUpdate": true,
             "nextTracks": Array [
               Object {
                 "album": Object {
@@ -2306,7 +2306,7 @@ exports[`SpotifyWebPlayer With the local player should render the full UI 1`] = 
             "isPlaying": true,
             "isSaved": true,
             "isUnsupported": false,
-            "needsUpdate": false,
+            "needsUpdate": true,
             "nextTracks": Array [
               Object {
                 "album": Object {
